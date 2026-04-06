@@ -1,6 +1,5 @@
 import streamlit as st
 import yfinance as yf
-import random
 
 # -------------------- PAGE CONFIG --------------------
 st.set_page_config(page_title="Stock Terminal", layout="wide")
@@ -14,54 +13,140 @@ page_bg = """
 h1, h2, h3, p, label {
     color: white !important;
 }
+.glow {
+    text-shadow: 0 0 10px #00ffcc;
+}
 </style>
 """
 st.markdown(page_bg, unsafe_allow_html=True)
 
-# -------------------- AI HELPER (FREE VERSION) --------------------
+# -------------------- AI HELPER --------------------
 if "show_ai" not in st.session_state:
     st.session_state.show_ai = False
 
-col1, col2 = st.columns([4,1])
+top1, top2 = st.columns([6,1])
 
-with col1:
-    st.title("📊 Stock Intelligence Dashboard")
+with top1:
+    st.markdown("<h1 class='glow' style='text-align:center;'>📊 Stock Intelligence Dashboard</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; color:#00ffcc;'>Your mini stock analysis terminal 🚀</p>", unsafe_allow_html=True)
 
-with col2:
+with top2:
     if st.button("🤖 AI Helper"):
         st.session_state.show_ai = not st.session_state.show_ai
 
+# Sidebar AI
 if st.session_state.show_ai:
     st.sidebar.title("🤖 Stock Assistant")
-
-    question = st.sidebar.text_input("Ask about stocks:")
+    question = st.sidebar.text_input("Ask anything about stocks:")
 
     if question:
         q = question.lower()
 
         if "pe" in q:
-            st.sidebar.write("📊 P/E Ratio = Price / Earnings. High = expensive, Low = undervalued.")
+            st.sidebar.write("""
+📊 **P/E Ratio (Price to Earnings Ratio)**
+
+The P/E ratio measures how much investors are willing to pay for each unit of earnings.
+
+It is calculated as: Price per Share / Earnings per Share.
+
+A high P/E ratio usually indicates that the stock is expensive or that investors expect high future growth.
+
+A low P/E ratio may suggest undervaluation, but sometimes it can also indicate weak business performance.
+
+It should always be compared with industry or sector P/E for better understanding.
+
+👉 In simple terms: It tells you whether a stock is cheap or expensive.
+""")
 
         elif "roe" in q:
-            st.sidebar.write("💰 ROE shows efficiency. 15%+ is strong.")
+            st.sidebar.write("""
+💰 **ROE (Return on Equity)**
 
-        elif "debt" in q:
-            st.sidebar.write("⚖️ Debt/Equity: <1 good, >2 risky.")
+ROE shows how efficiently a company uses shareholders' money to generate profits.
+
+It is calculated as: Net Income / Shareholder Equity.
+
+A higher ROE generally means better management and efficient use of capital.
+
+Companies with ROE above 15–20% are usually considered strong.
+
+Consistently high ROE over years is a sign of a quality business.
+
+👉 In simple terms: It tells how good the company is at making money.
+""")
+
+        elif "debt" in q or "de" in q:
+            st.sidebar.write("""
+⚖️ **Debt to Equity Ratio**
+
+This ratio shows how much debt a company has compared to its own capital.
+
+A lower ratio (<1) means the company is financially stable.
+
+A higher ratio (>2) indicates higher risk, especially during downturns.
+
+Too much debt can reduce profits due to interest payments.
+
+👉 In simple terms: It tells how risky the company is financially.
+""")
 
         elif "rsi" in q:
-            st.sidebar.write("📉 RSI: >70 overbought, <30 oversold.")
+            st.sidebar.write("""
+📉 **RSI (Relative Strength Index)**
+
+RSI is a momentum indicator used in technical analysis.
+
+It ranges from 0 to 100 and helps identify overbought or oversold conditions.
+
+Above 70 → Overbought (possible correction)
+
+Below 30 → Oversold (possible bounce)
+
+👉 In simple terms: It helps you decide when to buy or sell.
+""")
 
         elif "buy" in q:
-            st.sidebar.write("🟢 Buy strong companies with growth, low debt, good ROE.")
+            st.sidebar.write("""
+🟢 **When should you buy a stock?**
+
+Look for companies with strong fundamentals.
+
+Key indicators include high EPS growth, high ROE, and low debt.
+
+Also check if the stock is reasonably valued.
+
+👉 Buy good companies at fair prices.
+""")
 
         elif "sell" in q:
-            st.sidebar.write("🔴 Sell when fundamentals weaken or valuation is too high.")
+            st.sidebar.write("""
+🔴 **When should you sell a stock?**
+
+Sell when fundamentals weaken or valuation becomes too high.
+
+High debt or falling profits are warning signs.
+
+👉 Avoid emotional decisions.
+""")
 
         else:
-            st.sidebar.write("Ask about PE, ROE, RSI, debt, buy/sell.")
+            st.sidebar.write("""
+🤖 I'm still improving and learning!
+
+Right now, I can help you with:
+
+• P/E Ratio  
+• ROE  
+• Debt/Equity  
+• RSI  
+• Buy/Sell decisions  
+
+More advanced features coming soon 🚀
+""")
 
 # -------------------- TICKER --------------------
-stocks = [
+nifty_stocks = [
     "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
     "KOTAKBANK.NS","LT.NS","ITC.NS","SBIN.NS","BHARTIARTL.NS",
     "ASIANPAINT.NS","AXISBANK.NS","BAJFINANCE.NS","MARUTI.NS","SUNPHARMA.NS",
@@ -71,11 +156,11 @@ stocks = [
 
 ticker_text = ""
 
-for s in stocks:
+for s in nifty_stocks:
     try:
         data = yf.Ticker(s).history(period="1d")
         price = data["Close"].iloc[-1]
-        ticker_text += f"{s.replace('.NS','')} ₹{price:.0f} | "
+        ticker_text += f"{s.replace('.NS','')} ₹{price:.0f} ▲ | "
     except:
         ticker_text += f"{s.replace('.NS','')} N/A | "
 
@@ -85,70 +170,64 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+st.markdown("---")
+
 # -------------------- INPUT --------------------
 stock_name = st.text_input("🔍 Enter Stock (e.g., TCS.NS)")
 
+# -------------------- ANALYSIS --------------------
 if st.button("🚀 Analyze"):
 
-    try:
-        stock = yf.Ticker(stock_name)
-        hist = stock.history(period="1d")
+    if stock_name == "":
+        st.warning("Enter stock name")
+    else:
+        try:
+            stock = yf.Ticker(stock_name)
+            hist = stock.history(period="1d")
 
-        if hist.empty:
-            st.error("Invalid stock ❌")
-        else:
-            price = hist["Close"].iloc[-1]
-
-            eps = round(price % 20 + 5, 2)
-            roe = round(price % 25 + 5, 2)
-            de = round(price % 2, 2)
-            pe = round(price % 30 + 10, 2)
-            sector_pe = round(pe + (price % 10), 2)
-
-            col1, col2, col3 = st.columns(3)
-
-            col1.metric("💰 Price", f"₹{price:.2f}")
-            col2.metric("📈 EPS Growth", f"{eps}%")
-            col3.metric("💸 P/E", f"{pe}")
-
-            col1.metric("🏦 ROE", f"{roe}%")
-            col2.metric("⚖️ D/E", f"{de}")
-            col3.metric("🏭 Sector P/E", f"{sector_pe}")
-
-            st.markdown("---")
-
-            # Recommendation logic
-            if eps >= 15 and roe >= 18 and de <= 1:
-                if pe <= sector_pe:
-                    rec = "🟢 Strong Buy"
-                    explanation = "High growth, strong ROE, low debt and undervalued vs sector."
-                else:
-                    rec = "🟡 Buy"
-                    explanation = "Strong company but slightly expensive."
-
-            elif de > 2:
-                rec = "🔴 Avoid"
-                explanation = "High debt makes it risky."
-
+            if hist.empty:
+                st.error("Invalid stock ❌")
             else:
-                rec = "⚪ Hold"
-                explanation = "Moderate fundamentals."
+                price = hist["Close"].iloc[-1]
 
-            st.subheader(rec)
+                col1, col2, col3 = st.columns(3)
 
-            with st.expander("🧠 Why this recommendation?"):
-                st.write(explanation)
+                eps = round(price % 20 + 5, 2)
+                roe = round(price % 25 + 5, 2)
+                de = round(price % 2, 2)
+                pe = round(price % 30 + 10, 2)
+                sector_pe = round(pe + (price % 10), 2)
 
-    except:
-        st.error("Error fetching data")
+                col1.metric("💰 Price", f"₹{price:.2f}")
+                col2.metric("📈 EPS Growth", f"{eps}%")
+                col3.metric("💸 P/E", f"{pe}")
 
-# -------------------- QUOTES --------------------
-quotes = [
-    "Be fearful when others are greedy. — Warren Buffett",
-    "Time in the market beats timing the market.",
-    "Price is what you pay, value is what you get.",
-    "Know what you own.",
-]
+                col1.metric("🏦 ROE", f"{roe}%")
+                col2.metric("⚖️ D/E", f"{de}")
+                col3.metric("🏭 Sector P/E", f"{sector_pe}")
 
-st.markdown("---")
-st.markdown(f"<center style='color:#00ffcc;'>💡 {random.choice(quotes)}</center>", unsafe_allow_html=True)
+                st.markdown("---")
+
+                # Detailed analysis
+                with st.expander("📊 Detailed Analysis"):
+                    st.write(f"""
+EPS Growth: {eps}%  
+ROE: {roe}%  
+Debt/Equity: {de}  
+P/E: {pe}  
+Sector P/E: {sector_pe}
+""")
+
+                # Recommendation
+                st.subheader("🤖 Recommendation")
+
+                if eps >= 15 and roe >= 18 and de <= 1:
+                    if pe <= sector_pe:
+                        st.success("🟢 Strong Buy")
+                    else:
+                        st.warning("🟡 Buy")
+                else:
+                    st.info("⚪ Hold")
+
+        except:
+            st.error("Error fetching data")
