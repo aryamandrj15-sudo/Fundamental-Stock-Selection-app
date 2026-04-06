@@ -10,12 +10,23 @@ BACKGROUND = """
 
 /* MAIN BACKGROUND */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(-45deg, #000000, #0f2027, #203a43, #000000);
-    background-size: 400% 400%;
-    animation: gradientBG 12s ease infinite;
+    background: linear-gradient(to bottom, #000000, #0f2027);
 }
 
-/* FAKE CANDLESTICKS */
+/* GRID LIKE STOCK CHART */
+[data-testid="stAppViewContainer"]::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0,255,204,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,204,0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 0;
+}
+
+/* CANDLESTICK STYLE (SUBTLE) */
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: fixed;
@@ -23,32 +34,26 @@ BACKGROUND = """
     height: 100%;
     background-image: repeating-linear-gradient(
         to right,
-        rgba(0,255,0,0.15) 0px,
-        rgba(0,255,0,0.15) 2px,
-        transparent 2px,
-        transparent 40px
+        rgba(0,255,0,0.12) 0px,
+        rgba(0,255,0,0.12) 3px,
+        transparent 3px,
+        transparent 60px
     ),
     repeating-linear-gradient(
         to right,
-        rgba(255,0,0,0.1) 0px,
-        rgba(255,0,0,0.1) 2px,
+        rgba(255,0,0,0.08) 0px,
+        rgba(255,0,0,0.08) 2px,
         transparent 2px,
-        transparent 60px
+        transparent 90px
     );
-    animation: candlesMove 20s linear infinite;
-    z-index: 0;
+    opacity: 0.3;
+    animation: floatCandle 25s linear infinite;
 }
 
-/* ANIMATIONS */
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes candlesMove {
-    from { transform: translateY(0); }
-    to { transform: translateY(-200px); }
+/* ANIMATION */
+@keyframes floatCandle {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-150px); }
 }
 
 /* TEXT */
@@ -56,12 +61,12 @@ h1, h2, h3, p, label {
     color: white !important;
 }
 
-/* GLOW TITLE */
+/* GLOW */
 .glow {
-    text-shadow: 0 0 15px #00ffcc;
+    text-shadow: 0 0 20px #00ffcc;
 }
 
-/* HOVER CARDS */
+/* METRIC CARDS */
 [data-testid="metric-container"] {
     background: rgba(255,255,255,0.05);
     border-radius: 12px;
@@ -71,10 +76,10 @@ h1, h2, h3, p, label {
 
 [data-testid="metric-container"]:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 20px #00ffcc;
+    box-shadow: 0 0 25px #00ffcc;
 }
 
-/* INPUT BOX */
+/* INPUT */
 input {
     background-color: rgba(255,255,255,0.05) !important;
     color: white !important;
@@ -86,17 +91,6 @@ button[kind="primary"] {
     border: none;
     color: black;
     font-weight: bold;
-}
-
-/* PULSE EFFECT FOR TICKER */
-.ticker {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { text-shadow: 0 0 5px #00ffcc; }
-    50% { text-shadow: 0 0 20px #00ffcc; }
-    100% { text-shadow: 0 0 5px #00ffcc; }
 }
 
 </style>
@@ -344,3 +338,15 @@ Sector P/E: {sector_pe}
 
         except:
             st.error("Error fetching data")
+
+# -------------------- QUOTES --------------------
+quotes = [
+    "Be fearful when others are greedy. — Warren Buffett",
+    "Time in the market beats timing the market.",
+    "Price is what you pay, value is what you get.",
+    "Know what you own.",
+]
+
+st.markdown("---")
+st.markdown(f"<center style='color:#00ffcc;'>💡 {random.choice(quotes)}</center>", unsafe_allow_html=True)
+
