@@ -143,17 +143,17 @@ if st.button("🚀 Analyze"):
 
                
                # -------------------- RECOMMENDATION --------------------
-st.subheader("🤖 Recommendation")
+                st.subheader("🤖 Recommendation")
 
-if eps >= 15 and roe >= 18 and de <= 1:
-    if pe <= sector_pe:
-        recommendation = "🟢 Strong Buy"
-        explanation = f"""
-        This stock shows strong fundamentals:
-        - High EPS growth ({eps}%) → strong earnings expansion 📈
-        - High ROE ({roe}%) → efficient capital usage 💰
-        - Low debt ({de}) → financially stable ⚖️
-        - P/E ({pe}) is below sector average ({sector_pe}) → undervalued 🧠
+               if eps >= 15 and roe >= 18 and de <= 1:
+                   if pe <= sector_pe:
+                       recommendation = "🟢 Strong Buy"
+                       explanation = f"""
+                       This stock shows strong fundamentals:
+                       - High EPS growth ({eps}%) → strong earnings expansion 📈
+                       - High ROE ({roe}%) → efficient capital usage 💰
+                       - Low debt ({de}) → financially stable ⚖️
+                       - P/E ({pe}) is below sector average ({sector_pe}) → undervalued 🧠
 
         👉 This indicates a high-quality company available at a reasonable valuation.
         """
