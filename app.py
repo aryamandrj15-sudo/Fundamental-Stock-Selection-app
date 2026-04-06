@@ -5,21 +5,70 @@ import yfinance as yf
 st.set_page_config(page_title="Stock Terminal", layout="wide")
 
 # -------------------- BACKGROUND --------------------
-page_bg = """
+BACKGROUND_HTML = """
 <style>
-[data-testid="stAppViewContainer"] {
-    background: radial-gradient(circle at top, #0f2027, #203a43, #000000);
+#stock-bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
 }
-h1, h2, h3, p, label {
-    color: white !important;
-}
-.glow {
-    text-shadow: 0 0 10px #00ffcc;
+
+.stApp > div {
+    position: relative;
+    z-index: 1;
 }
 </style>
-"""
-st.markdown(page_bg, unsafe_allow_html=True)
 
+<canvas id="stock-bg-canvas"></canvas>
+
+<script>
+const canvas = document.getElementById("stock-bg-canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Colors
+const colors = ["#00ffcc", "#ff4d4d", "#ffaa00"];
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 3,
+        speedY: Math.random() * 1 + 0.5
+    });
+}
+
+function draw() {
+    ctx.fillStyle = "rgba(0,0,0,0.2)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+
+        p.y -= p.speedY;
+
+        if (p.y < 0) {
+            p.y = canvas.height;
+        }
+    });
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+"""
+
+st.markdown(BACKGROUND_HTML, unsafe_allow_html=True)
 
 # -------------------- AI HELPER --------------------
 if "show_ai" not in st.session_state:
