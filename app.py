@@ -253,11 +253,36 @@ for s in nifty_stocks:
     except:
         ticker_text += f"{s.replace('.NS','')} N/A | "
 
-st.markdown(f"""
-<div class="ticker" style="background:black; color:#00ffcc; padding:10px;">
-<marquee>{ticker_text}</marquee>
+
+ticker_html = f"""
+<style>
+.ticker {{
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    background: black;
+    color: #00ffcc;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+}}
+
+.ticker span {{
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 40s linear infinite;
+}}
+
+@keyframes ticker {{
+    0% {{ transform: translateX(0); }}
+    100% {{ transform: translateX(-100%); }}
+}}
+</style>
+
+<div class="ticker">
+<span>{ticker_text}</span>
 </div>
-""", unsafe_allow_html=True)
+"""
 st.markdown(ticker_html, unsafe_allow_html=True)
 
 # -------------------- INPUT --------------------
