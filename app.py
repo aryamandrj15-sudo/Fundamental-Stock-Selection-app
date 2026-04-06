@@ -5,70 +5,50 @@ import yfinance as yf
 st.set_page_config(page_title="Stock Terminal", layout="wide")
 
 # -------------------- BACKGROUND --------------------
-BACKGROUND_HTML = """
+BACKGROUND = """
 <style>
-#stock-bg-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(-45deg, #000000, #0f2027, #203a43, #000000);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
 }
 
-.stApp > div {
-    position: relative;
-    z-index: 1;
+/* Floating glow particles */
+[data-testid="stAppViewContainer"]::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(0,255,204,0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: moveGrid 20s linear infinite;
+}
+
+/* Animation */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes moveGrid {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-200px); }
+}
+
+/* Text styling */
+h1, h2, h3, p, label {
+    color: white !important;
+}
+
+/* Glow */
+.glow {
+    text-shadow: 0 0 15px #00ffcc;
 }
 </style>
-
-<canvas id="stock-bg-canvas"></canvas>
-
-<script>
-const canvas = document.getElementById("stock-bg-canvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-// Colors
-const colors = ["#00ffcc", "#ff4d4d", "#ffaa00"];
-
-let particles = [];
-
-for (let i = 0; i < 80; i++) {
-    particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 3,
-        speedY: Math.random() * 1 + 0.5
-    });
-}
-
-function draw() {
-    ctx.fillStyle = "rgba(0,0,0,0.2)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach(p => {
-        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-        ctx.fillRect(p.x, p.y, p.size, p.size);
-
-        p.y -= p.speedY;
-
-        if (p.y < 0) {
-            p.y = canvas.height;
-        }
-    });
-
-    requestAnimationFrame(draw);
-}
-
-draw();
-</script>
 """
 
-st.markdown(BACKGROUND_HTML, unsafe_allow_html=True)
+st.markdown(BACKGROUND, unsafe_allow_html=True)
 
 # -------------------- AI HELPER --------------------
 if "show_ai" not in st.session_state:
