@@ -20,23 +20,23 @@ h1, h2, h3, p, label {
 """
 st.markdown(page_bg, unsafe_allow_html=True)
 
+
 # -------------------- AI HELPER --------------------
 if "show_ai" not in st.session_state:
     st.session_state.show_ai = False
 
-top1, top2 = st.columns([6,1])
+# Top bar
+st.markdown("<h1 class='glow' style='text-align:center;'>📊 Stock Intelligence Dashboard</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; color:#00ffcc;'>Your mini stock analysis terminal 🚀</p>", unsafe_allow_html=True)
 
-with top1:
-    st.markdown("<h1 class='glow' style='text-align:center;'>📊 Stock Intelligence Dashboard</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center; color:#00ffcc;'>Your mini stock analysis terminal 🚀</p>", unsafe_allow_html=True)
+# Button (fixed position)
+if st.button("🤖 Open AI Helper"):
+    st.session_state.show_ai = not st.session_state.show_ai
 
-with top2:
-    if st.button("🤖 AI Helper"):
-        st.session_state.show_ai = not st.session_state.show_ai
-
-# Sidebar AI
+# Sidebar AI (always renders properly now)
 if st.session_state.show_ai:
-    st.sidebar.title("🤖 Stock Assistant")
+    st.sidebar.header("🤖 Stock Assistant")
+
     question = st.sidebar.text_input("Ask anything about stocks:")
 
     if question:
@@ -48,15 +48,15 @@ if st.session_state.show_ai:
 
 The P/E ratio measures how much investors are willing to pay for each unit of earnings.
 
-It is calculated as: Price per Share / Earnings per Share.
+It is calculated as Price per Share divided by Earnings per Share.
 
-A high P/E ratio usually indicates that the stock is expensive or that investors expect high future growth.
+A high P/E ratio usually indicates that the stock is expensive or that investors expect strong future growth.
 
-A low P/E ratio may suggest undervaluation, but sometimes it can also indicate weak business performance.
+A low P/E ratio may suggest undervaluation, but sometimes it can also reflect weak fundamentals.
 
-It should always be compared with industry or sector P/E for better understanding.
+It should always be compared with industry averages for better insights.
 
-👉 In simple terms: It tells you whether a stock is cheap or expensive.
+👉 In simple terms: It tells whether a stock is cheap or expensive.
 """)
 
         elif "roe" in q:
@@ -65,30 +65,28 @@ It should always be compared with industry or sector P/E for better understandin
 
 ROE shows how efficiently a company uses shareholders' money to generate profits.
 
-It is calculated as: Net Income / Shareholder Equity.
+A higher ROE indicates better management efficiency.
 
-A higher ROE generally means better management and efficient use of capital.
+Companies with ROE above 15–20% are generally considered strong.
 
-Companies with ROE above 15–20% are usually considered strong.
+Consistent ROE over time is a sign of a high-quality business.
 
-Consistently high ROE over years is a sign of a quality business.
-
-👉 In simple terms: It tells how good the company is at making money.
+👉 In simple terms: It shows how good the company is at making money.
 """)
 
-        elif "debt" in q or "de" in q:
+        elif "debt" in q:
             st.sidebar.write("""
 ⚖️ **Debt to Equity Ratio**
 
-This ratio shows how much debt a company has compared to its own capital.
+This ratio shows the level of financial leverage used by a company.
 
-A lower ratio (<1) means the company is financially stable.
+A lower ratio (<1) indicates financial stability.
 
-A higher ratio (>2) indicates higher risk, especially during downturns.
+A higher ratio (>2) suggests higher risk, especially during downturns.
 
-Too much debt can reduce profits due to interest payments.
+Too much debt can reduce profitability due to interest burden.
 
-👉 In simple terms: It tells how risky the company is financially.
+👉 In simple terms: It tells how risky the company is.
 """)
 
         elif "rsi" in q:
@@ -97,44 +95,53 @@ Too much debt can reduce profits due to interest payments.
 
 RSI is a momentum indicator used in technical analysis.
 
-It ranges from 0 to 100 and helps identify overbought or oversold conditions.
+It ranges from 0 to 100.
 
-Above 70 → Overbought (possible correction)
+Above 70 indicates overbought conditions.
 
-Below 30 → Oversold (possible bounce)
+Below 30 indicates oversold conditions.
+
+Traders use RSI to time entry and exit points.
 
 👉 In simple terms: It helps you decide when to buy or sell.
 """)
 
         elif "buy" in q:
             st.sidebar.write("""
-🟢 **When should you buy a stock?**
+🟢 **When to Buy a Stock**
 
-Look for companies with strong fundamentals.
+Look for strong companies with:
 
-Key indicators include high EPS growth, high ROE, and low debt.
+✔ High EPS growth  
+✔ High ROE  
+✔ Low debt  
+✔ Reasonable valuation  
 
-Also check if the stock is reasonably valued.
+Buying during corrections is often a good strategy.
 
-👉 Buy good companies at fair prices.
+👉 In simple terms: Buy strong businesses at fair prices.
 """)
 
         elif "sell" in q:
             st.sidebar.write("""
-🔴 **When should you sell a stock?**
+🔴 **When to Sell a Stock**
 
-Sell when fundamentals weaken or valuation becomes too high.
+Consider selling when:
 
-High debt or falling profits are warning signs.
+✔ Fundamentals weaken  
+✔ Debt increases significantly  
+✔ Valuation becomes too high  
 
-👉 Avoid emotional decisions.
+Avoid emotional decisions and follow logic.
+
+👉 In simple terms: Sell weak or overpriced stocks.
 """)
 
         else:
             st.sidebar.write("""
-🤖 I'm still improving and learning!
+🤖 I’m still improving!
 
-Right now, I can help you with:
+Currently I can help with:
 
 • P/E Ratio  
 • ROE  
@@ -142,7 +149,7 @@ Right now, I can help you with:
 • RSI  
 • Buy/Sell decisions  
 
-More advanced features coming soon 🚀
+More features coming soon 🚀
 """)
 
 # -------------------- TICKER --------------------
