@@ -7,14 +7,8 @@ st.set_page_config(page_title="Stock Selection Tool", layout="centered")
 page_bg = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-    color: white;
-}
-[data-testid="stHeader"] {
-    background: rgba(0,0,0,0);
-}
-[data-testid="stToolbar"] {
-    right: 2rem;
+    background-image: url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3");
+    background-size: cover;
 }
 </style>
 """
