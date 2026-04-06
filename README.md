@@ -1,98 +1,111 @@
-# 📊 Fundamental Stock Selection Model
+# 📊 Stock Intelligence Dashboard
 
-## 🚀 Overview
-
-The **Fundamental Stock Selection Model** is a Python-based tool designed to evaluate stocks using core financial metrics and generate investment recommendations such as **Strong Buy, Buy, Hold, or Avoid**.
-
-This project simulates a simplified **rule-based fundamental analysis system**, similar to those used in fintech platforms and quantitative screening tools.
+An interactive **fintech web application** built using **Streamlit** that allows users to analyze stocks based on key financial metrics, view live market data, and learn fundamental concepts through an integrated assistant.
 
 ---
 
-## 🧠 Objective
+## 🚀 Live Demo
 
-The goal of this project is to:
-
-* Apply financial analysis concepts using code
-* Build a structured decision-making model for stock selection
-* Bridge the gap between **finance and programming**
+🔗 https://fundamental-stock-selection-model-7y9ko5tqevh8azcqnjhvug.streamlit.app
 
 ---
 
-## 📈 Key Financial Metrics Used
+## ✨ Features
 
-### 1. EPS Growth (%)
+### 📈 Live Market Ticker
 
-* Measures the growth rate of a company's earnings
-* Indicates future potential and scalability
+* Displays real-time prices of **NIFTY 50 stocks**
+* Smooth scrolling ticker for a trading terminal feel
 
-### 2. Return on Equity (ROE %)
+### 🔍 Stock Analysis
 
-* Evaluates how efficiently a company generates profit using shareholders' funds
-* Higher ROE reflects better management efficiency
+* Enter any stock (e.g., `TCS.NS`, `RELIANCE.NS`)
+* Fetches live stock price using `yfinance`
+* Calculates:
 
-### 3. Debt-to-Equity Ratio (D/E)
+  * EPS Growth (simulated)
+  * ROE (Return on Equity)
+  * Debt/Equity Ratio
+  * P/E Ratio
+  * Sector P/E (comparison)
 
-* Assesses financial leverage and risk
-* Lower values indicate a more stable financial structure
+### 🤖 Smart Recommendation Engine
 
-### 4. Price-to-Earnings Ratio (P/E)
+* Provides:
 
-* Determines whether a stock is overvalued or undervalued
-* Helps incorporate valuation into decision-making
+  * 🟢 Strong Buy
+  * 🟡 Buy
+  * ⚪ Hold
+* Based on financial logic and valuation comparison
+
+### 📊 Detailed Insights
+
+* Expandable section for deeper analysis
+* Explains financial metrics clearly
+
+### 🧠 Built-in Stock Assistant
+
+* Answers key concepts like:
+
+  * P/E Ratio
+  * ROE
+  * Debt/Equity
+  * RSI
+  * Buy/Sell strategies
+* Designed to simulate an AI learning assistant (no API required)
+
+### 🎨 Modern UI/UX
+
+* Dark themed gradient background
+* Neon glow effects
+* Clean dashboard layout
+* Interactive components
 
 ---
 
-## ⚙️ Model Logic
+## 🛠️ Tech Stack
 
-The model uses a rule-based approach:
-
-* **Strong Buy** → High growth + High ROE + Low debt + Reasonable valuation
-* **Buy** → Strong fundamentals but slightly higher valuation
-* **Hold** → Moderate fundamentals or expensive valuation
-* **Avoid** → High debt or overvalued stocks
-
----
-
-## 🧑‍💻 How It Works
-
-1. User inputs financial metrics:
-
-   * EPS Growth
-   * ROE
-   * Debt/Equity
-   * P/E Ratio
-
-2. The program:
-
-   * Validates the input
-   * Applies decision rules
-   * Outputs a recommendation
+* **Frontend & Backend:** Streamlit
+* **Data Source:** yfinance
+* **Language:** Python
+* **Deployment:** Streamlit Cloud
+* **Version Control:** GitHub
 
 ---
 
-
-## 🖥️ Example
-
-### Input:
+## 📂 Project Structure
 
 ```
-EPS Growth (%): 18
-Debt/Equity: 0.5
-ROE (%): 20
-P/E Ratio: 18
+Fundamental-Stock-Selection-Model/
+│
+├── app.py              # Main application file
+├── requirements.txt   # Dependencies
+└── README.md          # Project documentation
 ```
 
-### Output:
-
-```
-📊 Recommendation: Strong Buy (Growth + Value)
-```
 
 ---
 
-## ⚠️ Disclaimer
+## 📌 Usage
 
-This model is intended for **educational purposes only** and should not be considered financial advice. Real-world investing requires deeper analysis including qualitative factors, macroeconomic trends, and market conditions.
+* Enter stock ticker (e.g., `INFY.NS`)
+* Click **Analyze**
+* View:
+
+  * Live price
+  * Financial metrics
+  * Recommendation
+* Use **AI Helper** to understand concepts
+
+---
+
+## 💡 Future Improvements
+
+* 📈 Live candlestick charts
+* 📊 Stock scoring system (0–100)
+* 🧠 AI-powered stock analysis
+* 🔍 Real fundamental data integration
+* 🌐 Multi-market support
 
 ---
 
@@ -101,5 +114,10 @@ This model is intended for **educational purposes only** and should not be consi
 **Aryaman Kumar**
 
 * Finance & Stock Market Enthusiast
-* Exploring Fintech, Quantitative Models, and Algorithmic Thinking
+* Aspiring Fintech Professional
+* 
+---
 
+## ⚠️ Disclaimer
+
+This project is for **educational purposes only** and does not constitute financial advice.
