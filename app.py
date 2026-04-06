@@ -139,21 +139,19 @@ if st.button("🚀 Analyze"):
                     🔹 Debt/Equity: {de}  
                     🔹 P/E: {pe}  
                     🔹 Sector P/E: {sector_pe}  
-                    """)
+                    """)  
+                    # -------------------- RECOMMENDATION --------------------
+st.subheader("🤖 Recommendation")
 
-               
-               # -------------------- RECOMMENDATION --------------------
-                st.subheader("🤖 Recommendation")
-
-               if eps >= 15 and roe >= 18 and de <= 1:
-                   if pe <= sector_pe:
-                       recommendation = "🟢 Strong Buy"
-                       explanation = f"""
-                       This stock shows strong fundamentals:
-                       - High EPS growth ({eps}%) → strong earnings expansion 📈
-                       - High ROE ({roe}%) → efficient capital usage 💰
-                       - Low debt ({de}) → financially stable ⚖️
-                       - P/E ({pe}) is below sector average ({sector_pe}) → undervalued 🧠
+if eps >= 15 and roe >= 18 and de <= 1:
+    if pe <= sector_pe:
+        recommendation = "🟢 Strong Buy"
+        explanation = f"""
+        This stock shows strong fundamentals:
+        - High EPS growth ({eps}%) → strong earnings expansion 📈
+        - High ROE ({roe}%) → efficient capital usage 💰
+        - Low debt ({de}) → financially stable ⚖️
+        - P/E ({pe}) is below sector average ({sector_pe}) → undervalued 🧠
 
         👉 This indicates a high-quality company available at a reasonable valuation.
         """
@@ -194,6 +192,9 @@ st.markdown("---")
 # Explanation inside expander
 with st.expander("🧠 Why this recommendation?"):
     st.write(explanation)
+
+               
+             
                 # -------------------- SCROLL EFFECT --------------------
                 st.markdown("""
                 <div style='margin-top:50px; text-align:center; font-size:18px; color:#00ffcc;'>
