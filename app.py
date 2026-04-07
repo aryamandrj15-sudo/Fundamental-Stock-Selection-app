@@ -255,7 +255,20 @@ Currently I can help with:
 
 More features coming soon 🚀
 """)
-            
+
+
+# -------------------- STOCK LISTS --------------------
+nifty_50 = [
+    "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
+    "KOTAKBANK.NS","LT.NS","ITC.NS","SBIN.NS","BHARTIARTL.NS"
+]
+
+bank_nifty = [
+    "HDFCBANK.NS","ICICIBANK.NS","KOTAKBANK.NS","SBIN.NS","AXISBANK.NS",
+    "INDUSINDBK.NS","BANKBARODA.NS","PNB.NS","FEDERALBNK.NS","IDFCFIRSTB.NS"
+]
+
+
 # -------------------- INDEX DROPDOWN --------------------
 st.markdown("### 📊 Market Indices")
 
@@ -266,14 +279,16 @@ index_choice = st.selectbox(
     placeholder="Select an index"
 )
 
-# -------------------- STOCK DISPLAY --------------------
+# -------------------- SHOW DATA --------------------
 if index_choice:
 
+    # Select stock list
     if index_choice == "NIFTY 50":
         stocks = nifty_50
     else:
         stocks = bank_nifty
 
+    # -------------------- STOCK DISPLAY --------------------
     st.markdown(f"### 📈 {index_choice} Stocks")
 
     col1, col2 = st.columns(2)
@@ -281,6 +296,9 @@ if index_choice:
     for i, stock in enumerate(stocks):
         try:
             data = yf.Ticker(stock).history(period="2d")
+
+            if len(data) < 2:
+                continue
 
             price = data["Close"].iloc[-1]
             prev = data["Close"].iloc[-2]
@@ -291,11 +309,10 @@ if index_choice:
             else:
                 col2.metric(stock.replace(".NS",""), f"₹{price:.2f}", f"{change:.2f}")
 
-        except:
-            pass
+        except Exception as e:
+            st.write("Error:", e)
 
-
-    # 🔥 HEATMAP 
+    # -------------------- HEATMAP --------------------
     st.markdown("## 🔥 Market Heatmap")
 
     heatmap_data = []
@@ -316,8 +333,8 @@ if index_choice:
                 "Change": change
             })
 
-        except:
-            pass
+        except Exception as e:
+            st.write("Heatmap Error:", e)
 
     df = pd.DataFrame(heatmap_data)
 
@@ -336,20 +353,8 @@ if index_choice:
         )
 
         st.plotly_chart(fig, use_container_width=True)
-
-
-# -------------------- STOCK LISTS --------------------
-nifty_50 = [
-    "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
-    "KOTAKBANK.NS","LT.NS","ITC.NS","SBIN.NS","BHARTIARTL.NS"
-]
-
-bank_nifty = [
-    "HDFCBANK.NS","ICICIBANK.NS","KOTAKBANK.NS","SBIN.NS","AXISBANK.NS",
-    "INDUSINDBK.NS","BANKBARODA.NS","PNB.NS","FEDERALBNK.NS","IDFCFIRSTB.NS"
-]
-
-
+    else:
+        st.warning("No data available for heatmap")
 
 # -------------------- SHOW ONLY AFTER SELECTION --------------------
 if index_choice:
