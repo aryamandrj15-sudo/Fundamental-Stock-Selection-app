@@ -259,8 +259,47 @@ st.markdown("### 📊 Market Indices")
 
 index_choice = st.selectbox(
     "Select Index",
-    ["NIFTY 50", "BANK NIFTY"]
+    ["-- Select Index --", "NIFTY 50", "BANK NIFTY"]
 )
+
+# -------------------- STOCK LISTS --------------------
+nifty_50 = [
+    "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
+    "KOTAKBANK.NS","LT.NS","ITC.NS","SBIN.NS","BHARTIARTL.NS"
+]
+
+bank_nifty = [
+    "HDFCBANK.NS","ICICIBANK.NS","KOTAKBANK.NS","SBIN.NS","AXISBANK.NS",
+    "INDUSINDBK.NS","BANKBARODA.NS","PNB.NS","FEDERALBNK.NS","IDFCFIRSTB.NS"
+]
+
+# -------------------- SHOW ONLY AFTER SELECTION --------------------
+if index_choice != "-- Select Index --":
+
+    if index_choice == "NIFTY 50":
+        stocks = nifty_50
+    else:
+        stocks = bank_nifty
+
+    st.markdown(f"### 📈 {index_choice} Stocks")
+
+    col1, col2 = st.columns(2)
+
+    for i, stock in enumerate(stocks):
+        try:
+            data = yf.Ticker(stock).history(period="2d")
+
+            price = data["Close"].iloc[-1]
+            prev = data["Close"].iloc[-2]
+            change = price - prev
+
+            if i % 2 == 0:
+                col1.metric(stock.replace(".NS",""), f"₹{price:.2f}", f"{change:.2f}")
+            else:
+                col2.metric(stock.replace(".NS",""), f"₹{price:.2f}", f"{change:.2f}")
+
+        except:
+            pass
 
 # -------------------- STOCK LISTS --------------------
 
@@ -415,7 +454,12 @@ quotes = [
     "Be fearful when others are greedy. — Warren Buffett",
     "Time in the market beats timing the market.",
     "Price is what you pay, value is what you get.",
-    "Know what you own.",
+    "The stock market is a device for transferring money from the impatient to the patient — Warren Buffett",
+    "If you don't feel comfortable owning a stock for 10 years, you shouldn't own it for 10 minutes — Warren Buffett",
+    "In investing, what is comfortable is rarely profitable -Robert Arnott",
+    "Investing should be more like watching paint dry or watching grass grow. If you want excitement, take $800 and go to Las Vegas -Paul Samuelson",
+    "It's not whether you are right or wrong, but how much money you make when you are right and how much you lose when you are wrong -George Soros"
+    
 ]
 
 st.markdown("---")
