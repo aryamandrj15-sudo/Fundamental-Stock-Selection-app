@@ -304,13 +304,6 @@ screener_type = st.selectbox(
     ["High Growth 🚀", "Undervalued 💎", "Low Debt 🛡️"]
 )
 
-# ✅ SAFE STOCK LIST
-if index_choice == "NIFTY 50":
-    screener_stocks = nifty_50
-elif index_choice == "BANK NIFTY":
-    screener_stocks = bank_nifty
-else:
-    screener_stocks = nifty_50   # default fallback
 
 filtered_stocks = []
 
