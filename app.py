@@ -314,25 +314,49 @@ if index_choice:
 
 
     st.write("DEBUG: Heatmap section running")
-
+    
     # -------------------- HEATMAP --------------------
-import plotly.express as px
-import pandas as pd
+    st.markdown("## 🔥 Market Heatmap")
 
-test_df = pd.DataFrame({
-    "Stock": ["A", "B", "C"],
-    "Change": [2, -1, 3]
-})
+    import pandas as pd
+    import plotly.express as px
 
-fig = px.treemap(
-    test_df,
-    path=["Stock"],
-    values="Change",
-    color="Change"
-)
+    heatmap_data = []
 
-st.plotly_chart(fig)
+    for stock in stocks:
+        try:
+            data = yf.Ticker(stock).history(period="2d")
 
+            if len(data) < 2:
+                continue
+
+            price = data["Close"].iloc[-1]
+            prev = data["Close"].iloc[-2]
+            change = ((price - prev) / prev) * 100
+
+            heatmap_data.append({
+                "Stock": stock.replace(".NS",""),
+                "Change": change
+            })
+
+        except Exception as e:
+            st.write("Error:", e)
+
+    df = pd.DataFrame(heatmap_data)
+
+    st.write("DEBUG:", df)   # 👈 KEEP THIS FOR NOW
+
+    if not df.empty:
+        fig = px.treemap(
+            df,
+            path=["Stock"],
+            values="Change",
+            color="Change"
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.warning("No data for heatmap")
 # -------------------- SHOW ONLY AFTER SELECTION --------------------
 if index_choice:
 
