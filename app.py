@@ -223,14 +223,6 @@ bank_nifty = [
     "INDUSINDBK.NS","BANKBARODA.NS","PNB.NS","FEDERALBNK.NS","IDFCFIRSTB.NS"
 ]
 
-change = data["Close"].iloc[-1] - data["Close"].iloc[-2]
-
-if change > 0:
-    color = "🟢"
-else:
-    color = "🔴"
-
-col1.metric(stock.replace(".NS",""), f"₹{price:.2f}", f"{color} {change:.2f}")
 
 # -------------------- DISPLAY --------------------
 
