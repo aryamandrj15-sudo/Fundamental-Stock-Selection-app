@@ -312,6 +312,9 @@ if index_choice:
         except Exception as e:
             st.write("Error:", e)
 
+
+    st.write("DEBUG: Heatmap section running")
+
     # -------------------- HEATMAP --------------------
     st.markdown("## 🔥 Market Heatmap")
 
