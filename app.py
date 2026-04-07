@@ -311,12 +311,7 @@ if index_choice:
 
         except Exception as e:
             st.write("Error:", e)
-
-
-    st.write("DEBUG: Heatmap section running")
-    
-    # -------------------- HEATMAP --------------------
-    st.markdown("## 🔥 Market Heatmap")
+             st.markdown("## 🔥 Market Heatmap")
 
     import pandas as pd
     import plotly.express as px
@@ -336,7 +331,7 @@ if index_choice:
 
             heatmap_data.append({
                 "Stock": stock.replace(".NS",""),
-                "Change": change
+                 "Change": change
             })
 
         except Exception as e:
@@ -344,7 +339,7 @@ if index_choice:
 
     df = pd.DataFrame(heatmap_data)
 
-    st.write("DEBUG:", df)   # 👈 KEEP THIS FOR NOW
+    st.write("DEBUG:", df)  
 
     if not df.empty:
         fig = px.treemap(
@@ -357,6 +352,10 @@ if index_choice:
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("No data for heatmap")
+
+
+   
+    
 # -------------------- SHOW ONLY AFTER SELECTION --------------------
 if index_choice:
 
