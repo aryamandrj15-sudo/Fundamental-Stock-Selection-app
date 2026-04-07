@@ -268,7 +268,12 @@ ticker_html = f"""
 st.markdown(ticker_html, unsafe_allow_html=True)
 
 # -------------------- INPUT --------------------
-stock_name = st.text_input("🔍 Enter Stock (e.g., TCS.NS,RELIANCE.NS)")
+option = st.radio("Select input method:", ["Type", "Choose"])
+
+if option == "Type":
+    stock_name = st.text_input("Enter Stock (e.g., TCS.NS)")
+else:
+    stock_name = st.selectbox("Choose Stock", nifty_stocks)
 
 # -------------------- ANALYSIS --------------------
 if st.button("🚀 Analyze"):
@@ -338,3 +343,45 @@ quotes = [
 st.markdown("---")
 st.markdown(f"<center style='color:#00ffcc;'>💡 {random.choice(quotes)}</center>", unsafe_allow_html=True)
 
+
+#----------------TOP GAINERS & LOSERS-------------
+
+st.markdown("---")
+st.header("📈 Top Gainers & Losers Today")
+
+nifty_stocks = [
+    "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
+    "KOTAKBANK.NS","LT.NS","ITC.NS","SBIN.NS","BHARTIARTL.NS",
+    "ASIANPAINT.NS","AXISBANK.NS","BAJFINANCE.NS","MARUTI.NS","SUNPHARMA.NS"
+]
+
+stock_changes = []
+
+for stock in nifty_stocks:
+    try:
+        data = yf.Ticker(stock).history(period="2d")
+        if len(data) >= 2:
+            prev = data["Close"].iloc[-2]
+            curr = data["Close"].iloc[-1]
+            change = ((curr - prev) / prev) * 100
+            stock_changes.append((stock.replace(".NS",""), change))
+    except:
+        pass
+
+# Sort
+gainers = sorted(stock_changes, key=lambda x: x[1], reverse=True)[:5]
+losers = sorted(stock_changes, key=lambda x: x[1])[:5]
+
+col1, col2 = st.columns(2)
+
+# Gainers
+with col1:
+    st.subheader("🟢 Top Gainers")
+    for stock, change in gainers:
+        st.write(f"{stock} +{change:.2f}%")
+
+# Losers
+with col2:
+    st.subheader("🔴 Top Losers")
+    for stock, change in losers:
+        st.write(f"{stock} {change:.2f}%")
