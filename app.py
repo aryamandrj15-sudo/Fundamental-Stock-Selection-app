@@ -215,7 +215,41 @@ Currently I can help with:
 
 More features coming soon 🚀
 """)
+# -------------------- TABS --------------------
+tab1, tab2 = st.tabs(["🤖 AI Helper", "📊 NIFTY 50"])
 
+# -------------------- TAB 1: AI --------------------
+with tab1:
+    st.write("Ask anything about stock market concepts 👇")
+
+    question = st.text_input("Ask here:")
+
+    if question:
+        q = question.lower()
+
+        if "pe" in q:
+            st.write("P/E ratio tells how expensive a stock is compared to earnings...")
+        elif "roe" in q:
+            st.write("ROE shows how efficiently a company generates profit...")
+        else:
+            st.write("I'm still learning — ask about PE, ROE, RSI, etc.")
+
+# -------------------- TAB 2: NIFTY 50 --------------------
+with tab2:
+    st.subheader("📊 NIFTY 50 Stocks")
+
+    nifty_stocks = [
+        "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
+        "KOTAKBANK.NS","LT.NS","ITC.NS","SBIN.NS","BHARTIARTL.NS"
+    ]
+
+    for stock in nifty_stocks:
+        try:
+            data = yf.Ticker(stock).history(period="1d")
+            price = data["Close"].iloc[-1]
+            st.write(f"{stock.replace('.NS','')} ₹{price:.2f}")
+        except:
+            st.write(f"{stock} data not available")
 # -------------------- TICKER --------------------
 nifty_stocks = [
     "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
