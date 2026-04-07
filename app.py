@@ -426,6 +426,30 @@ if option == "Type":
 else:
     stock_name = st.selectbox("Choose Stock", nifty_stocks)
 
+    # -------------------- STOCK DISPLAY --------------------
+    st.markdown(f"### 📈 {index_choice} Stocks")
+
+    col1, col2 = st.columns(2)
+
+    for i, stock in enumerate(stocks):
+        try:
+            data = yf.Ticker(stock).history(period="2d")
+
+            if len(data) < 2:
+                continue
+
+            price = data["Close"].iloc[-1]
+            prev = data["Close"].iloc[-2]
+            change = price - prev
+
+            if i % 2 == 0:
+                col1.metric(stock.replace(".NS",""), f"₹{price:.2f}", f"{change:.2f}")
+            else:
+                col2.metric(stock.replace(".NS",""), f"₹{price:.2f}", f"{change:.2f}")
+
+        except:
+            pass
+
 # -------------------- ANALYSIS --------------------
 if st.button("🚀 Analyze"):
 
