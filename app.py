@@ -201,11 +201,11 @@ Currently I can help with:
 
 More features coming soon 🚀
 """)
-# -------------------- TABS --------------------
-tab1 = st.tabs([ "📊 NIFTY 50"])
+            
+# -------------------- NIFTY 50 TAB --------------------
+tab = st.tabs(["📊 NIFTY 50"])[0]
 
-# -------------------- TAB 2: NIFTY 50 --------------------
-with tab1:
+with tab:
     st.subheader("📊 NIFTY 50 Stocks")
 
     nifty_stocks = [
@@ -220,6 +220,8 @@ with tab1:
             st.write(f"{stock.replace('.NS','')} ₹{price:.2f}")
         except:
             st.write(f"{stock} data not available")
+
+
 # -------------------- TICKER --------------------
 nifty_stocks = [
     "RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS",
