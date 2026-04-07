@@ -310,7 +310,6 @@ if index_choice:
         except Exception as e:
             st.write("Stock Error:", e)
 
-    # -------------------- HEATMAP --------------------
   # -------------------- HEATMAP --------------------
 st.markdown("## 🔥 Market Heatmap")
 
