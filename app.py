@@ -286,14 +286,6 @@ index_choice = st.selectbox(
     placeholder="Select an index"
 )
 
-# -------------------- RUN ONLY AFTER SELECTION --------------------
-if index_choice:
-
-    # ✅ DEFINE STOCKS HERE
-    if index_choice == "NIFTY 50":
-        stocks = nifty_50
-    else:
-        stocks = bank_nifty
 
 # -------------------- SCREENERS --------------------
 st.markdown("## 📊 Stock Screeners")
@@ -365,8 +357,16 @@ if filtered_stocks:
 
 else:
     st.error("No stocks match this screener")
-# -------------------- RUN ONLY AFTER INDEX SELECTED --------------------
+
+
+# -------------------- RUN ONLY AFTER SELECTION --------------------
 if index_choice:
+
+    # ✅ DEFINE STOCKS HERE
+    if index_choice == "NIFTY 50":
+        stocks = nifty_50
+    else:
+        stocks = bank_nifty
 
     # -------------------- HEATMAP --------------------
     st.markdown("## 🔥 Market Heatmap")
