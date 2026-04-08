@@ -283,7 +283,7 @@ index_choice = st.selectbox(
     "Select Index",
     ["NIFTY 50", "BANK NIFTY"],
     index=None,
-    placeholder="Select an index"
+    placeholder="Select an index..."
 )
 
 
@@ -292,7 +292,9 @@ st.markdown("## 📊 Stock Screeners")
 
 screener_type = st.selectbox(
     "Select Screener",
-    ["High Growth 🚀", "Undervalued 💎", "Low Debt 🛡️"]
+    ["High Growth 🚀", "Undervalued 💎", "Low Debt 🛡️"],
+     Screener=None,
+    placeholder="Select a Screener..."
 )
 
 run_screener = st.button("🚀 Run Screener")
